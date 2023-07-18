@@ -25,7 +25,7 @@ export const readMessage = async ({messageId, chatId}, socket) => {
     console.log('readMessage');
     try {
         await Message.findByIdAndUpdate(messageId, {$set: {isRead: true}}, {new: 1})
-        socket.to(chatId).emit('messageIsRead', messageId)
+        io.to(chatId).emit('messageIsRead', messageId)
     } catch (error) {
         console.log('readMessage error', error);
     }
