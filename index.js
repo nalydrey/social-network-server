@@ -13,7 +13,7 @@ import {
 import http from 'http'
 import {Server} from 'socket.io'
 import { createMessage, deleteMessage, readMessage } from './socketControllers/messages.js';
-import { connectChats, createNewChat, joinToChat, deleteChat } from './socketControllers/chats.js';
+import { connectChats, createNewChat, joinToChat, deleteChat, startTyping, endTyping } from './socketControllers/chats.js';
 import { sendInvitation, cancelSuggestation, rejectInvitation, acceptInvitation, deleteFromFriends } from './socketControllers/friends.js';
 
 config();
@@ -59,9 +59,12 @@ io.on('connection', (socket) => {
     socket.on('cancelSuggestation', async (data) => { cancelSuggestation(data, socket)})  
     socket.on('rejectInvitation', async (data) => { rejectInvitation(data, socket)})  
     socket.on('acceptInvitation', async (data) => { acceptInvitation(data, socket)})  
-    socket.on('deleteFriend', async (data) => { deleteFromFriends(data, socket)})  
+    socket.on('deleteFriend', async (data) => { deleteFromFriends(data, socket)}) 
+    socket.on('startTyping', async (data) => { startTyping(data, socket)}) 
+    socket.on('endTyping', async (data) => { endTyping(data, socket)}) 
 
-    socket.on('disconnect', () => {disconnectUser(socket)})
+
+    socket.on('disconnect', (data) => {disconnectUser(data, socket)})
 })
 
 const main = () => {

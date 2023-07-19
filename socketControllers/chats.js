@@ -23,7 +23,7 @@ export const createNewChat = async ({userReceiver}, socket) => {
             //Создать чат
             const chat = new Chat({users: [userTransmitter, userReceiver]})
             await chat.save()
-            const popChat = await Chat.findById(chat).populate('users', 'private.avatar private.firstName') 
+            const popChat = await Chat.findById(chat).populate('users', 'private.avatar private.firstName private.lastName') 
             console.log(chat);
             popChat._doc.unreadMessageCount = 0
             //Записать его участникам чата
@@ -46,6 +46,26 @@ export const deleteChat = async ({chatId}, socket) => {
         await User.updateMany({_id: chat.users}, {$pull: {chats: chatId}})
         console.log(socket.rooms, chatId);
         io.to(chatId).emit('chatIsDeleted', chatId)
+
+    } catch (error) {
+        console.log('deleteChat error', error);
+    }
+};
+
+export const startTyping = async ({chatId}, socket) => {
+    console.log('startTyping');
+    try {
+        socket.broadcast.to(chatId).emit('typingStarted', chatId)
+
+    } catch (error) {
+        console.log('deleteChat error', error);
+    }
+};
+
+export const endTyping = async ({chatId}, socket) => {
+    console.log('endTyping');
+    try {
+        socket.broadcast.to(chatId).emit('typingFinished', chatId)
 
     } catch (error) {
         console.log('deleteChat error', error);
