@@ -34,7 +34,6 @@ export const getPosts = async(req, res) => {
     try{
         console.log('getPosts');
         console.log(req.params);
-        const {userId} = req.params
         const posts = await Post.find().sort({createdAt:-1}).populate('user', 'private.avatar private.firstName private.lastName')
         console.log(posts);
         res.json({posts})
@@ -48,7 +47,7 @@ export const getMyPosts = async(req, res) => {
     try{
         console.log('getMyPosts');
         console.log(req.params);
-        const {userId} = req.params
+        const {userId} = req
         const posts =await Post.find({user: userId}).sort({createdAt:-1}).populate('user', 'private.avatar private.firstName private.lastName')
         console.log(posts);
         res.json({posts})
@@ -62,7 +61,8 @@ export const deletePost = async(req, res) => {
     try{
         console.log('deletePost');
         console.log(req.params);
-        const {postId, userId} = req.params
+        const {postId} = req.params
+        const {userId} = req
         await User.findByIdAndUpdate(userId, {$pull: {posts: postId}})
         const post =await Post.findByIdAndDelete(postId)
         console.log(post);
@@ -91,7 +91,8 @@ export const setLike = async (req, res) => {
         console.log(req.body);
         const {isLike} = req.body
         console.log(req.params);
-        const {userId, postId} = req.params
+        const {postId} = req.params
+        const {userId} = req
         const post = await Post.findById(postId)
         // console.log(post);
         // console.log(post.likes.includes(userId));

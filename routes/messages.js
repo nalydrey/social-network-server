@@ -6,8 +6,8 @@ import {
 
 const route = new Router();
 
-route.get('/chat/:chat', getChatMessages);
-route.put('/:messageId', editMessage);
+// route.get('/chat/:chat', getChatMessages);
+// route.put('/:messageId', editMessage);
 
 
 export default route;

@@ -5,6 +5,6 @@ import {
 
 const route = new Router();
 
-route.get('/my/:userId', getMyChats);
+// route.get('/my/:userId', getMyChats);
 
 export default route;

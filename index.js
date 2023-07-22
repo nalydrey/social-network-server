@@ -39,13 +39,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'))
 app.use(fileUpLoad())
-app.use(rootRoute);
+app.use('/api', rootRoute);
 
 
 
 io.on('connection', (socket) => {
-    console.log('user connected');
-    console.log('currentUser', socket.handshake);
+    // console.log('user connected');
+    // console.log('currentUser', socket.handshake);
     socket.on('enterUser', (data) => { userEnter(data, socket)})
     socket.on('quitUser', (data) => { disconnectUser(data, socket)})
     socket.on('sendMessage', async (data) => { createMessage(data, socket) })
