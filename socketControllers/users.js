@@ -21,6 +21,7 @@ export const userEnter = async (data, socket) => {
 export const disconnectUser = async (data, socket) => {
     console.log('quitUser');
     const userId = socket?.user || null
+    console.log(userId);
     try{
         if (userId) {
             socket.user = null

@@ -46,6 +46,7 @@ app.use('/api', rootRoute);
 io.on('connection', (socket) => {
     // console.log('user connected');
     // console.log('currentUser', socket.handshake);
+    console.log('socket!!!!!!!!!!!!!!!!!!!!!!',socket.user);
     socket.on('enterUser', (data) => { userEnter(data, socket)})
     socket.on('quitUser', (data) => { disconnectUser(data, socket)})
     socket.on('sendMessage', async (data) => { createMessage(data, socket) })
@@ -62,8 +63,6 @@ io.on('connection', (socket) => {
     socket.on('deleteFriend', async (data) => { deleteFromFriends(data, socket)}) 
     socket.on('startTyping', async (data) => { startTyping(data, socket)}) 
     socket.on('endTyping', async (data) => { endTyping(data, socket)}) 
-
-
     socket.on('disconnect', (data) => {disconnectUser(data, socket)})
 })
 
