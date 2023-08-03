@@ -69,12 +69,15 @@ export const deleteFromFriends = async ({friendId}, socket) => {
     console.log('deleteFromFriends');
     const currentUserId = socket.user
     try {
+        console.log('currentUserId', currentUserId, 'friendId', friendId);
         if (currentUserId) {
             //delete friend from currentUser
             await User.findByIdAndUpdate(currentUserId, {$pull: {friends: friendId}})
             //delete currentUser to Friend
             await User.findByIdAndUpdate(friendId, {$pull: {friends: currentUserId}})
+            console.log('!');
             socket.to(friendId).emit('friendIsDeleted', {userId: currentUserId})
+            console.log('!!');
         }
     } catch (error) {
         console.log('deleteFromFriends error', error);

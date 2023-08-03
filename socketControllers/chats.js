@@ -54,6 +54,7 @@ export const deleteChat = async ({chatId}, socket) => {
 
 export const startTyping = async ({chatId}, socket) => {
     console.log('startTyping');
+
     try {
         socket.broadcast.to(chatId).emit('typingStarted', chatId)
 
